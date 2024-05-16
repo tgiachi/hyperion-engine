@@ -11,6 +11,8 @@ namespace hyperion::engine {
         _mousePosition = new MousePosition();
         _screenSize = new ScreenSize();
         _tilesSize = new TilesSize();
+        _engine_context = new EngineContext();
+        _engine_context->inputHandler = new services::InputHandler();
 
         spdlog::info("Initializing Hyperion Engine");
         this->initializeConsole();
@@ -19,6 +21,11 @@ namespace hyperion::engine {
     void HyperionEngine::initializeConsole() {
         spdlog::info("Initializing console");
         auto params = TCOD_ContextParams{};
+
+        _engine_context->inputHandler->subscribeKeystroke("CTRL+Q", [](SDL_Keycode key, std::string keystroke) {
+            spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
+        });
+
         params.tcod_version = TCOD_COMPILEDVERSION;
         params.renderer_type = _options->renderer;
         params.vsync = _options->vsync;

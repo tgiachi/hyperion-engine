@@ -5,6 +5,7 @@
 
 #include "../types/engine_options.h"
 #include "../types/contexts.h"
+#include "../types/engine_context.h"
 
 
 using namespace hyperion::engine::contexts;
@@ -13,6 +14,7 @@ namespace hyperion::engine {
     class HyperionEngine {
     private:
         EngineOptions *_options;
+        EngineContext *_engine_context;
         tcod::Context _context;
         TCOD_Console *_rootConsole;
 

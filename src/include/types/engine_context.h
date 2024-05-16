@@ -4,11 +4,12 @@
 
 #ifndef ENGINE_CONTEXT_H
 #define ENGINE_CONTEXT_H
+#include "../engine/InputHandler.h"
 
 namespace hyperion::engine {
-
-
-
+    typedef struct {
+        services::InputHandler *inputHandler;
+    } EngineContext;
 }
 
 
