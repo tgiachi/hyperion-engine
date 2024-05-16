@@ -21,9 +21,18 @@ namespace hyperion::engine::screen {
 
         ~ScreenConsole();
 
+        [[nodiscard]] tcod::Console *getConsole() const {
+            return _console;
+        }
+
+
+        void update(double deltaTime) override {
+
+        }
+
         void render(TCOD_Console *console) override {
             if (_visible) {
-                tcod::blit(*console, *_console, {_consoleRect.x, _consoleRect.y}, {0, 0, 0, 0}, 1.0f, 1.0f);
+                tcod::blit(*console, *_console->get(), {_consoleRect.x, _consoleRect.y}, {0, 0, 0, 0}, 1.0f, 1.0f);
             }
         }
 

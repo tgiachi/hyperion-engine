@@ -3,6 +3,7 @@
 #include "spdlog/spdlog.h"
 #include <SDL.h>
 
+#include "../../screens/TestScreen.h"
 #include "../screen/screen_console.h"
 #include "../utils/image_scaler.h"
 
@@ -136,12 +137,19 @@ namespace hyperion::engine {
 
     void HyperionEngine::update(const SDL_Event *event) {
         this->update_inputs(event);
+
+        for (auto *screenConsole: this->_screenConsoles) {
+            screenConsole->update(this->_deltaTime);
+        }
     }
 
 
     void HyperionEngine::run() {
         SDL_Event event;
 
+
+        auto screen = new hyperion::engine::screen::TestScreen(40, 40, 20, 20);
+        this->_screenConsoles.push_back(screen);
 
         while (this->_running) {
             this->_lastUpdate = this->_currentTick;
