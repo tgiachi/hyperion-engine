@@ -17,6 +17,7 @@ namespace hyperion::engine {
         int columns;
         int rows;
         const char *dataDirectory;
+        const char *tilesetName;
         TCOD_renderer_t renderer;
     } EngineOptions;
 }

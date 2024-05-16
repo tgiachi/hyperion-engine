@@ -1,6 +1,38 @@
 #include <iostream>
 
-int main() {
-  std::cout << "Hello, World!" << std::endl;
-  return 0;
+#include "include/engine/HyperionEngine.h"
+
+hyperion::engine::HyperionEngine *engine;
+
+
+auto get_data_dir() -> std::filesystem::path {
+    static auto root_directory = std::filesystem::path{"."};
+    while (!exists(root_directory / "data")) {
+        root_directory /= "..";
+        if (!exists(root_directory)) {
+            throw std::runtime_error("Could not find the data directory.");
+        }
+    }
+    return root_directory / "data";
+};
+
+int main(int argc, char **argv) {
+    auto engineOptions = hyperion::engine::EngineOptions{};
+    engineOptions.argc = argc;
+    engineOptions.argv = argv;
+    engineOptions.windowTitle = "Hyperion Engine";
+    engineOptions.fullscreen = false;
+    engineOptions.resizable = true;
+    engineOptions.vsync = true;
+    engineOptions.columns = 80;
+    engineOptions.rows = 50;
+    engineOptions.renderer = TCOD_RENDERER_SDL2;
+    engineOptions.tilesetName = "tilesets/dejavu10x10_gs_tc.png";
+    engineOptions.dataDirectory = get_data_dir().c_str();
+
+    engine = new hyperion::engine::HyperionEngine(&engineOptions);
+
+    engine->run();
+
+    return 0;
 }

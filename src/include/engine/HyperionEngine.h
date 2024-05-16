@@ -9,12 +9,17 @@ namespace hyperion::engine {
         tcod::Context _context;
         TCOD_Console *_rootConsole;
 
+        bool _running;
+
         void initializeConsole();
+        void render();
+        void update();
 
     public:
         HyperionEngine(EngineOptions *options);
-
         ~HyperionEngine();
+
+        void run();
     };
 }
 
