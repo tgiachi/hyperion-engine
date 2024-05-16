@@ -31,6 +31,10 @@ namespace hyperion::engine {
             this->_running = false;
         });
 
+        _engine_context->inputHandler->subscribeKeystroke("CTRL+a", [this](SDL_Keycode key, std::string keystroke) {
+            spdlog::info("CTRL+A pressed: Key:{} keystroke:{}", key, keystroke);
+
+        });
 
         params.tcod_version = TCOD_COMPILEDVERSION;
         params.renderer_type = _options->renderer;
