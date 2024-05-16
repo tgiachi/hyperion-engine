@@ -67,11 +67,11 @@ namespace hyperion::engine {
 
     void HyperionEngine::render() {
         tcod::print(*this->_rootConsole, {10, 10}, "Hello world", TCOD_ColorRGB{255, 255, 255}, std::nullopt,
-                    TCOD_CENTER);
+                    TCOD_LEFT);
 
         tcod::print(*this->_rootConsole, {10, 11}, std::format("delta: {}", this->_deltaTime),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
-                    TCOD_CENTER);
+                    TCOD_LEFT);
 
         tcod::print(*this->_rootConsole, {10, 12},
                     std::format("mouse x: {} y:{} leftclicked: {} right:{}", this->_mousePosition->x,
