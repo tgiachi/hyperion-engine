@@ -9,6 +9,8 @@ namespace hyperion::engine {
     HyperionEngine::HyperionEngine(EngineOptions *options) {
         _options = options;
         _mousePosition = new MousePosition();
+        _screenSize = new ScreenSize();
+        _tilesSize = new TilesSize();
 
         spdlog::info("Initializing Hyperion Engine");
         this->initializeConsole();
@@ -37,6 +39,13 @@ namespace hyperion::engine {
         }
 
         auto defaultTileset = tcod::load_tilesheet(tilesetPath, {32, 8}, tcod::CHARMAP_TCOD);
+
+        _tilesSize->height = defaultTileset.get_tile_height();
+        _tilesSize->width = defaultTileset.get_tile_width();
+
+        _screenSize->width = _options->columns * _tilesSize->width;
+        _screenSize->height = _options->rows * _tilesSize->height;
+
         params.tileset = defaultTileset.get();
 
 
@@ -60,12 +69,29 @@ namespace hyperion::engine {
                                 this->_mousePosition->rightButton),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
+
+        tcod::print(*this->_rootConsole, {10, 13},
+                    std::format("mouse grid x: {} y:{}",
+                                this->_mousePosition->gridX,
+                                this->_mousePosition->gridY),
+                    TCOD_ColorRGB{255, 255, 255}, std::nullopt,
+                    TCOD_LEFT);
+
+        // view size of pressed keys
+        tcod::print(*this->_rootConsole, {10, 14},
+                    std::format("keys pressed: {}",
+                                this->_keysPressed.size()),
+                    TCOD_ColorRGB{255, 255, 255}, std::nullopt,
+                    TCOD_LEFT);
     }
 
     void HyperionEngine::update_inputs(SDL_Event *event) {
         if (event->type == SDL_MOUSEMOTION) {
             this->_mousePosition->x = event->motion.x;
             this->_mousePosition->y = event->motion.y;
+
+            this->_mousePosition->gridX = event->motion.x / _tilesSize->width;
+            this->_mousePosition->gridY = event->motion.y / _tilesSize->height;
         }
 
         if (event->type == SDL_MOUSEBUTTONDOWN) {
@@ -91,6 +117,16 @@ namespace hyperion::engine {
             if (event->button.button == SDL_BUTTON_MIDDLE) {
                 this->_mousePosition->middleButton = false;
             }
+        }
+
+        if (event->type == SDL_KEYDOWN) {
+            this->_keysPressed.push_back(event->key.keysym.sym);
+        }
+
+        if (event->type == SDL_KEYUP) {
+            this->_keysPressed.erase(
+                std::remove(this->_keysPressed.begin(), this->_keysPressed.end(), event->key.keysym.sym),
+                this->_keysPressed.end());
         }
     }
 

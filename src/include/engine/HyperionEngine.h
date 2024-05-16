@@ -1,9 +1,13 @@
 #ifndef HYPERIONENGINE_H
 #define HYPERIONENGINE_H
-#include <SDL_stdinc.h>
+#include <SDL.h>
+
 
 #include "../types/engine_options.h"
-#include "../types/mouse_position.h"
+#include "../types/contexts.h"
+
+
+using namespace hyperion::engine::contexts;
 
 namespace hyperion::engine {
     class HyperionEngine {
@@ -11,11 +15,16 @@ namespace hyperion::engine {
         EngineOptions *_options;
         tcod::Context _context;
         TCOD_Console *_rootConsole;
+
         MousePosition *_mousePosition;
+        ScreenSize *_screenSize;
+        TilesSize *_tilesSize;
 
         Uint64 _lastUpdate = 0;
         Uint64 _currentTick = 0;
         double _deltaTime = 0;
+
+        std::vector<SDL_Keycode> _keysPressed;
 
         bool _running;
 

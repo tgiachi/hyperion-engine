@@ -2,7 +2,7 @@
 #define MOUSE_POSITION_H
 
 
-namespace hyperion::engine {
+namespace hyperion::engine::contexts {
     typedef struct {
         int x;
         int y;
@@ -12,6 +12,16 @@ namespace hyperion::engine {
         int gridX;
         int gridY;
     } MousePosition;
+
+    typedef struct {
+        int width;
+        int height;
+    } ScreenSize;
+
+    typedef struct {
+        int width;
+        int height;
+    } TilesSize;
 }
 
 
