@@ -12,11 +12,14 @@ namespace hyperion::engine {
         bool _running;
 
         void initializeConsole();
+
         void render();
+
         void update();
 
     public:
         HyperionEngine(EngineOptions *options);
+
         ~HyperionEngine();
 
         void run();

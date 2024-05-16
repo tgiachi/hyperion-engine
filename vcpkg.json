@@ -24,6 +24,9 @@
     },
     {
       "name": "spdlog"
+    },
+    {
+      "name": "stb"
     }
   ]
 }

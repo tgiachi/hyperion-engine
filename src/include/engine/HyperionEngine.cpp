@@ -3,6 +3,8 @@
 #include "spdlog/spdlog.h"
 #include <SDL.h>
 
+#include "../utils/image_scaler.h"
+
 namespace hyperion::engine {
     HyperionEngine::HyperionEngine(EngineOptions *options) {
         _options = options;
@@ -12,6 +14,7 @@ namespace hyperion::engine {
     }
 
     void HyperionEngine::initializeConsole() {
+        spdlog::info("Initializing console");
         auto params = TCOD_ContextParams{};
         params.tcod_version = TCOD_COMPILEDVERSION;
         params.renderer_type = _options->renderer;
@@ -19,14 +22,22 @@ namespace hyperion::engine {
         params.sdl_window_flags = _options->resizable ? SDL_WINDOW_RESIZABLE : 0;
         params.window_title = _options->windowTitle;
 
+
         auto tilesetPath = std::filesystem::path{_options->dataDirectory} / std::filesystem::path
                            {_options->tilesetName};
 
+        if (_options->tileSetScale > 1.0) {
+            spdlog::info("Scaling tileset by {}", _options->tileSetScale);
+            auto newScaledFileName = (tilesetPath.c_str() + std::string("_scaled.png")).c_str();
+            utils::images::scaleTileset(tilesetPath.c_str(), newScaledFileName,
+                                        _options->tileSetScale);
+
+            tilesetPath = newScaledFileName;
+        }
 
         auto defaultTileset = tcod::load_tilesheet(tilesetPath, {32, 8}, tcod::CHARMAP_TCOD);
-
-
         params.tileset = defaultTileset.get();
+        //params.tileset = this->getTileSet();
 
 
         this->_rootConsole = TCOD_console_new(_options->columns, _options->rows);
@@ -40,11 +51,13 @@ namespace hyperion::engine {
                     TCOD_CENTER);
     }
 
+
     void HyperionEngine::update() {
     }
 
+
     void HyperionEngine::run() {
-        SDL_Event event;
+        //SDL_Event event;
 
         while (this->_running) {
             this->_rootConsole->clear();

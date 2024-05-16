@@ -16,9 +16,7 @@ file(
 
 
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES}
-        src/include/types/engine_context.h
-        src/include/types/engine_options.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
@@ -59,6 +57,10 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(libtcod CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+
+find_package(Stb REQUIRED)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
 
 target_link_libraries(
         ${PROJECT_NAME}

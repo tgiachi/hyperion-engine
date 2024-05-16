@@ -16,6 +16,7 @@ namespace hyperion::engine {
         bool vsync;
         int columns;
         int rows;
+        double tileSetScale = 1.0;
         const char *dataDirectory;
         const char *tilesetName;
         TCOD_renderer_t renderer;
