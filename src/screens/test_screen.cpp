@@ -10,6 +10,8 @@ namespace hyperion::engine::screen {
         _time += deltaTime;
 
         if (_time > 1000) {
+            this->setX(this->getX() + 1);
+            this->setY(this->getY() + 1);
             // random character
             char rndd = rand() % this->getWidth();
 
