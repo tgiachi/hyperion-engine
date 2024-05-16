@@ -2,7 +2,7 @@
 // Created by squid on 5/16/24.
 //
 
-#include "TestScreen.h"
+#include "test_screen.h"
 
 #include <spdlog/spdlog.h>
 

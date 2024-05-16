@@ -3,7 +3,7 @@
 #include "spdlog/spdlog.h"
 #include <SDL.h>
 
-#include "../../screens/TestScreen.h"
+#include "../../screens/test_screen.h"
 #include "../screen/screen_console.h"
 #include "../utils/image_scaler.h"
 
