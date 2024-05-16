@@ -16,7 +16,9 @@ file(
 
 
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES}
+        src/include/types/engine_context.h
+        src/include/types/engine_options.h)
 
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
