@@ -29,6 +29,8 @@ namespace hyperion::engine {
             this->_running = false;
         });
 
+
+
         params.tcod_version = TCOD_COMPILEDVERSION;
         params.renderer_type = _options->renderer;
         params.vsync = _options->vsync;
@@ -87,6 +89,8 @@ namespace hyperion::engine {
                                 this->_mousePosition->gridY),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
+
+
     }
 
     void HyperionEngine::update_inputs(const SDL_Event *event) const {
