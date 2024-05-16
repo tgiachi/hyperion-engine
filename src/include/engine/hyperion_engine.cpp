@@ -147,8 +147,7 @@ namespace hyperion::engine {
     void HyperionEngine::run() {
         SDL_Event event;
 
-
-        auto screen = new screen::TestScreen(10, 10, 20, 20);
+        auto screen = new screen::TestScreen(20, 10, 20, 20);
         this->_screenConsoles.push_back(screen);
 
 
