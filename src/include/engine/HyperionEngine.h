@@ -34,9 +34,9 @@ namespace hyperion::engine {
 
         void render();
 
-        void update_inputs(SDL_Event *event);
+        void update_inputs(const SDL_Event *event) const;
 
-        void update(SDL_Event *event);
+        void update(const SDL_Event *event);
 
     public:
         HyperionEngine(EngineOptions *options);

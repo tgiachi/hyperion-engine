@@ -12,6 +12,7 @@ namespace hyperion::engine {
         _screenSize = new ScreenSize();
         _tilesSize = new TilesSize();
         _engine_context = new EngineContext();
+        _running = false;
         _engine_context->inputHandler = new services::InputHandler();
 
         spdlog::info("Initializing Hyperion Engine");
@@ -86,7 +87,7 @@ namespace hyperion::engine {
                     TCOD_LEFT);
     }
 
-    void HyperionEngine::update_inputs(SDL_Event *event) {
+    void HyperionEngine::update_inputs(const SDL_Event *event) const {
         if (event->type == SDL_MOUSEMOTION) {
             this->_mousePosition->x = event->motion.x;
             this->_mousePosition->y = event->motion.y;
@@ -125,7 +126,7 @@ namespace hyperion::engine {
     }
 
 
-    void HyperionEngine::update(SDL_Event *event) {
+    void HyperionEngine::update(const SDL_Event *event) {
         this->update_inputs(event);
     }
 
