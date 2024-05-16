@@ -47,7 +47,8 @@ namespace hyperion::engine {
             tilesetPath = newScaledFileName;
         }
 
-        auto defaultTileset = tcod::load_tilesheet(tilesetPath, {32, 8}, tcod::CHARMAP_TCOD);
+        auto defaultTileset = tcod::load_tilesheet(tilesetPath, {_options->tilesSetWidth, _options->tilesSetHeight},
+                                                   tcod::CHARMAP_TCOD);
 
         _tilesSize->height = defaultTileset.get_tile_height();
         _tilesSize->width = defaultTileset.get_tile_width();

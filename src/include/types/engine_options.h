@@ -19,6 +19,8 @@ namespace hyperion::engine {
         double tileSetScale = 1.0;
         const char *dataDirectory;
         const char *tilesetName;
+        int tilesSetWidth;
+        int tilesSetHeight;
         TCOD_renderer_t renderer;
     } EngineOptions;
 }

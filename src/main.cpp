@@ -26,9 +26,15 @@ int main(int argc, char **argv) {
     engineOptions.vsync = true;
     engineOptions.columns = 80;
     engineOptions.rows = 50;
-    engineOptions.tileSetScale = 3.0;
+    engineOptions.tileSetScale = 2.0;
     engineOptions.renderer = TCOD_RENDERER_OPENGL2;
     engineOptions.tilesetName = "tilesets/dejavu10x10_gs_tc.png";
+    engineOptions.tilesSetHeight = 8;
+    engineOptions.tilesSetWidth = 32;
+
+    //engineOptions.tilesetName = "tilesets/DB_curses_12x12.png";
+    //engineOptions.tilesSetHeight = 32;
+    //engineOptions.tilesSetWidth = 32;
     engineOptions.dataDirectory = get_data_dir().c_str();
 
     engine = new hyperion::engine::HyperionEngine(&engineOptions);
