@@ -151,21 +151,23 @@ namespace hyperion::engine {
         auto screen = new screen::TestScreen(10, 10, 20, 20);
         this->_screenConsoles.push_back(screen);
 
+
+        this->_lastUpdate = SDL_GetTicks();
+
+
         while (this->_running) {
-            this->_lastUpdate = this->_currentTick;
-            this->_currentTick = SDL_GetPerformanceCounter();
-            this->_deltaTime = (this->_currentTick - this->_lastUpdate) * 1000 / SDL_GetPerformanceFrequency();
+            auto currentTime = SDL_GetTicks();
+            this->_deltaTime = currentTime - this->_lastUpdate;
 
             this->_rootConsole->clear();
 
-            while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_QUIT) {
-                    this->_running = false;
-                }
-                this->update(&event);
-                this->render();
-                this->_context.present(*this->_rootConsole);
-            }
+            event = SDL_Event{};
+            SDL_PollEvent(&event);
+            this->update(&event);
+            this->render();
+            this->_context.present(*this->_rootConsole);
+
+            this->_lastUpdate = currentTime;;
         }
     }
 

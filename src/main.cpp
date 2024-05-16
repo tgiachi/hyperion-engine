@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     engineOptions.windowTitle = "Hyperion Engine";
     engineOptions.fullscreen = false;
     engineOptions.resizable = true;
-    engineOptions.vsync = true;
+    engineOptions.vsync = false;
     engineOptions.columns = 80;
     engineOptions.rows = 50;
     engineOptions.tileSetScale = 2.0;

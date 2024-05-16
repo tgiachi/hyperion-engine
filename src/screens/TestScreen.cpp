@@ -13,7 +13,7 @@ namespace hyperion::engine::screen {
 
         _time += deltaTime;
 
-        if (_time > 300) {
+        if (_time > 1000) {
             // random character
             char rndd = rand() % this->getWidth();
 

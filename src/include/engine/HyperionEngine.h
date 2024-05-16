@@ -28,10 +28,9 @@ namespace hyperion::engine {
 
         std::vector<screen::ScreenConsole *> _screenConsoles;
 
-        Uint64 _lastUpdate = 0;
-        Uint64 _currentTick = 0;
-        double _deltaTime = 0;
-
+        uint64_t _lastUpdate = 0;
+        uint64_t _currentTick = 0;
+        Uint32 _deltaTime = 0;
 
 
         bool _running;
