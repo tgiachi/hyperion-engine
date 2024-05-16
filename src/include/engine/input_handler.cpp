@@ -2,7 +2,7 @@
 // Created by squid on 5/16/24.
 //
 
-#include "InputHandler.h"
+#include "input_handler.h"
 
 #include <spdlog/spdlog.h>
 

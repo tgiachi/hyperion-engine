@@ -16,9 +16,7 @@ file(
 
 
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES}
-        src/include/engine/InputHandler.cpp
-        src/include/engine/InputHandler.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)

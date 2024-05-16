@@ -4,7 +4,7 @@
 
 #ifndef ENGINE_CONTEXT_H
 #define ENGINE_CONTEXT_H
-#include "../engine/InputHandler.h"
+#include "../engine/input_handler.h"
 
 namespace hyperion::engine {
     typedef struct {
