@@ -26,7 +26,7 @@ namespace hyperion::engine {
         Uint64 _currentTick = 0;
         double _deltaTime = 0;
 
-        std::vector<SDL_Keycode> _keysPressed;
+
 
         bool _running;
 

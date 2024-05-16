@@ -18,9 +18,12 @@ namespace hyperion::engine::services {
     class InputHandler {
     private:
         std::map<SDL_Keycode, std::vector<InputCallback> > keys;
+        std::vector<SDL_Keycode> _keysPressed;
 
     public:
         void subscribeKeystroke(std::string keystroke, InputCallback callback);
+
+        void update(SDL_Event *event);
     };
 }
 

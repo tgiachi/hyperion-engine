@@ -22,7 +22,7 @@ namespace hyperion::engine {
         spdlog::info("Initializing console");
         auto params = TCOD_ContextParams{};
 
-        _engine_context->inputHandler->subscribeKeystroke("CTRL+Q", [](SDL_Keycode key, std::string keystroke) {
+        _engine_context->inputHandler->subscribeKeystroke("CTRL+q", [](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
         });
 
@@ -83,13 +83,6 @@ namespace hyperion::engine {
                                 this->_mousePosition->gridY),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
-
-        // view size of pressed keys
-        tcod::print(*this->_rootConsole, {10, 14},
-                    std::format("keys pressed: {}",
-                                this->_keysPressed.size()),
-                    TCOD_ColorRGB{255, 255, 255}, std::nullopt,
-                    TCOD_LEFT);
     }
 
     void HyperionEngine::update_inputs(SDL_Event *event) {
@@ -126,15 +119,8 @@ namespace hyperion::engine {
             }
         }
 
-        if (event->type == SDL_KEYDOWN) {
-            this->_keysPressed.push_back(event->key.keysym.sym);
-        }
 
-        if (event->type == SDL_KEYUP) {
-            this->_keysPressed.erase(
-                std::remove(this->_keysPressed.begin(), this->_keysPressed.end(), event->key.keysym.sym),
-                this->_keysPressed.end());
-        }
+        this->_engine_context->inputHandler->update(event);
     }
 
 
