@@ -6,7 +6,7 @@
 namespace hyperion::engine::entities {
     class RendableEntity {
     public:
-        virtual void render(tcod::Console* console) = 0;
+        virtual void render(TCOD_Console *console) = 0;
     };
 }
 

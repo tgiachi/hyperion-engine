@@ -3,6 +3,7 @@
 #include "spdlog/spdlog.h"
 #include <SDL.h>
 
+#include "../screen/screen_console.h"
 #include "../utils/image_scaler.h"
 
 namespace hyperion::engine {
@@ -28,7 +29,6 @@ namespace hyperion::engine {
             spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
             this->_running = false;
         });
-
 
 
         params.tcod_version = TCOD_COMPILEDVERSION;
@@ -62,8 +62,8 @@ namespace hyperion::engine {
         params.tileset = defaultTileset.get();
 
 
-        this->_rootConsole = TCOD_console_new(_options->columns, _options->rows);
-        params.console = this->_rootConsole;
+        this->_rootConsole = new tcod::Console{_options->columns, _options->rows};
+        params.console = this->_rootConsole->get();
         this->_context = tcod::Context(params);
         this->_running = true;
     }
@@ -90,7 +90,9 @@ namespace hyperion::engine {
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-
+        for (auto *screenConsole: this->_screenConsoles) {
+            screenConsole->render(this->_rootConsole->get());
+        }
     }
 
     void HyperionEngine::update_inputs(const SDL_Event *event) const {

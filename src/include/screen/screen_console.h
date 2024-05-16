@@ -8,22 +8,22 @@
 
 
 namespace hyperion::engine::screen {
-    class Console : public entities::RendableEntity, public entities::UpdatableEntity {
+    class ScreenConsole : public entities::RendableEntity, public entities::UpdatableEntity {
     private:
         SDL_Rect _consoleRect;
         tcod::Console *_console;
         bool _visible = false;
 
     public:
-        Console(int width, int height, int x, int y) : _consoleRect({x, y, width, height}) {
-            _console = tcod::Console{width, height};
+        ScreenConsole(int width, int height, int x, int y) : _consoleRect({x, y, width, height}) {
+            _console = new tcod::Console{width, height};
         }
 
-        ~Console();
+        ~ScreenConsole();
 
-        void render(tcod::Console *console) override {
+        void render(TCOD_Console *console) override {
             if (_visible) {
-                tcod::blit(console, &_consoleRect, _console, nullptr, 1.0f, 1.0f);
+                tcod::blit(*console, *_console, {_consoleRect.x, _consoleRect.y}, {0, 0, 0, 0}, 1.0f, 1.0f);
             }
         }
 
