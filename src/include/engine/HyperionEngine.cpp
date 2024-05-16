@@ -148,7 +148,7 @@ namespace hyperion::engine {
         SDL_Event event;
 
 
-        auto screen = new hyperion::engine::screen::TestScreen(40, 40, 20, 20);
+        auto screen = new screen::TestScreen(10, 10, 20, 20);
         this->_screenConsoles.push_back(screen);
 
         while (this->_running) {
@@ -157,15 +157,15 @@ namespace hyperion::engine {
             this->_deltaTime = (this->_currentTick - this->_lastUpdate) * 1000 / SDL_GetPerformanceFrequency();
 
             this->_rootConsole->clear();
+
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
                     this->_running = false;
                 }
                 this->update(&event);
+                this->render();
+                this->_context.present(*this->_rootConsole);
             }
-            this->render();
-
-            this->_context.present(*this->_rootConsole);
         }
     }
 

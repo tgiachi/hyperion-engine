@@ -13,6 +13,7 @@ namespace hyperion::engine::screen {
         SDL_Rect _consoleRect;
         tcod::Console *_console;
         bool _visible = false;
+        float _alpha = 1.0f;
 
     public:
         ScreenConsole(int width, int height, int x, int y) : _consoleRect({x, y, width, height}) {
@@ -27,12 +28,11 @@ namespace hyperion::engine::screen {
 
 
         void update(double deltaTime) override {
-
         }
 
         void render(TCOD_Console *console) override {
             if (_visible) {
-                tcod::blit(*console, *_console->get(), {_consoleRect.x, _consoleRect.y}, {0, 0, 0, 0}, 1.0f, 1.0f);
+                tcod::blit(*console, *_console->get(), {_consoleRect.x, _consoleRect.y}, {0, 0, 0, 0}, _alpha, _alpha);
             }
         }
 
@@ -42,6 +42,22 @@ namespace hyperion::engine::screen {
 
         void hide() {
             _visible = false;
+        }
+
+        [[nodiscard]] float getAlpha() const {
+            return _alpha;
+        }
+
+        void setAlpha(float alpha) {
+            _alpha = alpha;
+        }
+
+        [[nodiscard]] int getWidth() const {
+            return _consoleRect.w;
+        }
+
+        [[nodiscard]] int getHeight() const {
+            return _consoleRect.h;
         }
     };
 }
