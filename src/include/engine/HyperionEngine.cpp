@@ -9,7 +9,6 @@ namespace hyperion::engine {
     HyperionEngine::HyperionEngine(EngineOptions *options) {
         _options = options;
         spdlog::info("Initializing Hyperion Engine");
-
         this->initializeConsole();
     }
 
@@ -37,7 +36,6 @@ namespace hyperion::engine {
 
         auto defaultTileset = tcod::load_tilesheet(tilesetPath, {32, 8}, tcod::CHARMAP_TCOD);
         params.tileset = defaultTileset.get();
-        //params.tileset = this->getTileSet();
 
 
         this->_rootConsole = TCOD_console_new(_options->columns, _options->rows);
@@ -49,6 +47,10 @@ namespace hyperion::engine {
     void HyperionEngine::render() {
         tcod::print(*this->_rootConsole, {10, 10}, "Hello world", TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_CENTER);
+
+        tcod::print(*this->_rootConsole, {10, 11}, std::format("delta: {}", this->_deltaTime),
+                    TCOD_ColorRGB{255, 255, 255}, std::nullopt,
+                    TCOD_CENTER);
     }
 
 
@@ -59,7 +61,12 @@ namespace hyperion::engine {
     void HyperionEngine::run() {
         //SDL_Event event;
 
+
         while (this->_running) {
+            this->_lastUpdate = this->_currentTick;
+            this->_currentTick = SDL_GetPerformanceCounter();
+            this->_deltaTime = (this->_currentTick - this->_lastUpdate) * 1000 / SDL_GetPerformanceFrequency();
+
             this->_rootConsole->clear();
             this->update();
             this->render();
