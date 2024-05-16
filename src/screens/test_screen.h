@@ -1,7 +1,3 @@
-//
-// Created by squid on 5/16/24.
-//
-
 #ifndef TESTSCREEN_H
 #define TESTSCREEN_H
 
