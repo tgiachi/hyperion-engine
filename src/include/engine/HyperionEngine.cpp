@@ -8,6 +8,8 @@
 namespace hyperion::engine {
     HyperionEngine::HyperionEngine(EngineOptions *options) {
         _options = options;
+        _mousePosition = new MousePosition();
+
         spdlog::info("Initializing Hyperion Engine");
         this->initializeConsole();
     }
@@ -51,15 +53,55 @@ namespace hyperion::engine {
         tcod::print(*this->_rootConsole, {10, 11}, std::format("delta: {}", this->_deltaTime),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_CENTER);
+
+        tcod::print(*this->_rootConsole, {10, 12},
+                    std::format("mouse x: {} y:{} leftclicked: {} right:{}", this->_mousePosition->x,
+                                this->_mousePosition->y, this->_mousePosition->leftButton,
+                                this->_mousePosition->rightButton),
+                    TCOD_ColorRGB{255, 255, 255}, std::nullopt,
+                    TCOD_LEFT);
+    }
+
+    void HyperionEngine::update_inputs(SDL_Event *event) {
+        if (event->type == SDL_MOUSEMOTION) {
+            this->_mousePosition->x = event->motion.x;
+            this->_mousePosition->y = event->motion.y;
+        }
+
+        if (event->type == SDL_MOUSEBUTTONDOWN) {
+            if (event->button.button == SDL_BUTTON_LEFT) {
+                this->_mousePosition->leftButton = true;
+            }
+            if (event->button.button == SDL_BUTTON_RIGHT) {
+                this->_mousePosition->rightButton = true;
+            }
+
+            if (event->button.button == SDL_BUTTON_MIDDLE) {
+                this->_mousePosition->middleButton = true;
+            }
+        }
+
+        if (event->type == SDL_MOUSEBUTTONUP) {
+            if (event->button.button == SDL_BUTTON_LEFT) {
+                this->_mousePosition->leftButton = false;
+            }
+            if (event->button.button == SDL_BUTTON_RIGHT) {
+                this->_mousePosition->rightButton = false;
+            }
+            if (event->button.button == SDL_BUTTON_MIDDLE) {
+                this->_mousePosition->middleButton = false;
+            }
+        }
     }
 
 
-    void HyperionEngine::update() {
+    void HyperionEngine::update(SDL_Event *event) {
+        this->update_inputs(event);
     }
 
 
     void HyperionEngine::run() {
-        //SDL_Event event;
+        SDL_Event event;
 
 
         while (this->_running) {
@@ -68,8 +110,14 @@ namespace hyperion::engine {
             this->_deltaTime = (this->_currentTick - this->_lastUpdate) * 1000 / SDL_GetPerformanceFrequency();
 
             this->_rootConsole->clear();
-            this->update();
+            while (SDL_PollEvent(&event)) {
+                if (event.type == SDL_QUIT) {
+                    this->_running = false;
+                }
+                this->update(&event);
+            }
             this->render();
+
             this->_context.present(*this->_rootConsole);
         }
     }
