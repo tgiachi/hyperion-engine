@@ -10,7 +10,7 @@
 namespace hyperion::engine {
     HyperionEngine::HyperionEngine(EngineOptions *options) {
         _options = options;
-        _mousePosition = new MousePosition();
+        _mousePosition = MousePosition();
         _screenSize = new ScreenSize();
         _tilesSize = new TilesSize();
         _engine_context = new EngineContext();
@@ -33,7 +33,6 @@ namespace hyperion::engine {
 
         _engine_context->inputHandler->subscribeKeystroke("CTRL+a", [this](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+A pressed: Key:{} keystroke:{}", key, keystroke);
-
         });
 
         params.tcod_version = TCOD_COMPILEDVERSION;
@@ -82,16 +81,16 @@ namespace hyperion::engine {
                     TCOD_LEFT);
 
         tcod::print(*this->_rootConsole, {10, 12},
-                    std::format("mouse x: {} y:{} leftclicked: {} right:{}", this->_mousePosition->x,
-                                this->_mousePosition->y, this->_mousePosition->leftButton,
-                                this->_mousePosition->rightButton),
+                    std::format("mouse x: {} y:{} leftclicked: {} right:{}", this->_mousePosition.x,
+                                this->_mousePosition.y, this->_mousePosition.leftButton,
+                                this->_mousePosition.rightButton),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
         tcod::print(*this->_rootConsole, {10, 13},
                     std::format("mouse grid x: {} y:{}",
-                                this->_mousePosition->gridX,
-                                this->_mousePosition->gridY),
+                                this->_mousePosition.gridX,
+                                this->_mousePosition.gridY),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
@@ -100,37 +99,37 @@ namespace hyperion::engine {
         }
     }
 
-    void HyperionEngine::update_inputs(const SDL_Event *event) const {
+    void HyperionEngine::update_inputs(const SDL_Event *event) {
         if (event->type == SDL_MOUSEMOTION) {
-            this->_mousePosition->x = event->motion.x;
-            this->_mousePosition->y = event->motion.y;
+            this->_mousePosition.x = event->motion.x;
+            this->_mousePosition.y = event->motion.y;
 
-            this->_mousePosition->gridX = event->motion.x / _tilesSize->width;
-            this->_mousePosition->gridY = event->motion.y / _tilesSize->height;
+            this->_mousePosition.gridX = event->motion.x / _tilesSize->width;
+            this->_mousePosition.gridY = event->motion.y / _tilesSize->height;
         }
 
         if (event->type == SDL_MOUSEBUTTONDOWN) {
             if (event->button.button == SDL_BUTTON_LEFT) {
-                this->_mousePosition->leftButton = true;
+                this->_mousePosition.leftButton = true;
             }
             if (event->button.button == SDL_BUTTON_RIGHT) {
-                this->_mousePosition->rightButton = true;
+                this->_mousePosition.rightButton = true;
             }
 
             if (event->button.button == SDL_BUTTON_MIDDLE) {
-                this->_mousePosition->middleButton = true;
+                this->_mousePosition.middleButton = true;
             }
         }
 
         if (event->type == SDL_MOUSEBUTTONUP) {
             if (event->button.button == SDL_BUTTON_LEFT) {
-                this->_mousePosition->leftButton = false;
+                this->_mousePosition.leftButton = false;
             }
             if (event->button.button == SDL_BUTTON_RIGHT) {
-                this->_mousePosition->rightButton = false;
+                this->_mousePosition.rightButton = false;
             }
             if (event->button.button == SDL_BUTTON_MIDDLE) {
-                this->_mousePosition->middleButton = false;
+                this->_mousePosition.middleButton = false;
             }
         }
 

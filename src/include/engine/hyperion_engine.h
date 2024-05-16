@@ -22,7 +22,7 @@ namespace hyperion::engine {
         tcod::Context _context;
         tcod::Console *_rootConsole;
 
-        MousePosition *_mousePosition;
+        MousePosition _mousePosition;
         ScreenSize *_screenSize;
         TilesSize *_tilesSize;
 
@@ -39,7 +39,7 @@ namespace hyperion::engine {
 
         void render();
 
-        void update_inputs(const SDL_Event *event) const;
+        void update_inputs(const SDL_Event *event);
 
         void update(const SDL_Event *event);
 
