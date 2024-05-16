@@ -27,7 +27,6 @@ namespace hyperion::engine {
         double _deltaTime = 0;
 
 
-
         bool _running;
 
         void initializeConsole();

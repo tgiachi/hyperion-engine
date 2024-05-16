@@ -4,8 +4,8 @@
 
 #ifndef DATA_LOADER_H
 #define DATA_LOADER_H
-namespace hyperion::engine::services {
 
+namespace hyperion::engine::services {
 }
 
 #endif //DATA_LOADER_H
