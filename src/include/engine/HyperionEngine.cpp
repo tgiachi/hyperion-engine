@@ -14,6 +14,7 @@ namespace hyperion::engine {
         _engine_context = new EngineContext();
         _running = false;
         _engine_context->inputHandler = new services::InputHandler();
+        _engine_context->dataLoader = new services::DataLoader(options);
 
         spdlog::info("Initializing Hyperion Engine");
         this->initializeConsole();
