@@ -13,17 +13,20 @@ namespace hyperion::engine::services {
         auto *tokens = new std::vector<std::string>;
 
         while (std::getline(keystrokeStream, keystroke, '+')) {
+            // to lower
+            std::transform(keystroke.begin(), keystroke.end(), keystroke.begin(), ::tolower);
+
             tokens->push_back(keystroke);
         }
 
         SDL_Keycode key = SDLK_UNKNOWN;
 
         for (auto &token: *tokens) {
-            if (token == "CTRL") {
+            if (token == "ctrl") {
                 key = key | KMOD_CTRL;
-            } else if (token == "ALT") {
+            } else if (token == "alt") {
                 key = key | KMOD_ALT;
-            } else if (token == "SHIFT") {
+            } else if (token == "shift") {
                 key = key | KMOD_SHIFT;
             } else {
                 key = key | SDL_GetKeyFromName(token.c_str());
