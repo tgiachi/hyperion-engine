@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     engineOptions.columns = 80;
     engineOptions.rows = 50;
     engineOptions.tileSetScale = 3.0;
-    engineOptions.renderer = TCOD_RENDERER_SDL2;
+    engineOptions.renderer = TCOD_RENDERER_OPENGL2;
     engineOptions.tilesetName = "tilesets/dejavu10x10_gs_tc.png";
     engineOptions.dataDirectory = get_data_dir().c_str();
 

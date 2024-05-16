@@ -22,8 +22,9 @@ namespace hyperion::engine {
         spdlog::info("Initializing console");
         auto params = TCOD_ContextParams{};
 
-        _engine_context->inputHandler->subscribeKeystroke("CTRL+q", [](SDL_Keycode key, std::string keystroke) {
+        _engine_context->inputHandler->subscribeKeystroke("CTRL+q", [this](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
+            this->_running = false;
         });
 
         params.tcod_version = TCOD_COMPILEDVERSION;

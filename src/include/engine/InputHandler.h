@@ -21,9 +21,9 @@ namespace hyperion::engine::services {
         std::vector<SDL_Keycode> _keysPressed;
 
     public:
-        void subscribeKeystroke(std::string keystroke, InputCallback callback);
+        void subscribeKeystroke(std::string keystroke, const InputCallback &callback);
 
-        void update(SDL_Event *event);
+        void update(const SDL_Event *event);
     };
 }
 

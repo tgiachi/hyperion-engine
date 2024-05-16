@@ -8,7 +8,7 @@
 
 
 namespace hyperion::engine::services {
-    void InputHandler::subscribeKeystroke(std::string keystroke, InputCallback callback) {
+    void InputHandler::subscribeKeystroke(std::string keystroke, const InputCallback &callback) {
         std::istringstream keystrokeStream(keystroke);
         auto *tokens = new std::vector<std::string>;
 
@@ -40,15 +40,13 @@ namespace hyperion::engine::services {
         delete tokens;
     }
 
-    void InputHandler::update(SDL_Event *event) {
+    void InputHandler::update(const SDL_Event *event) {
         if (event->type == SDL_KEYDOWN) {
             this->_keysPressed.push_back(event->key.keysym.sym);
         }
 
         if (event->type == SDL_KEYUP) {
-            this->_keysPressed.erase(
-                std::remove(this->_keysPressed.begin(), this->_keysPressed.end(), event->key.keysym.sym),
-                this->_keysPressed.end());
+            std::erase(this->_keysPressed, event->key.keysym.sym);
         }
 
         SDL_Keycode keycode = SDLK_UNKNOWN;
@@ -72,9 +70,10 @@ namespace hyperion::engine::services {
         }
 
 
-        if (keys.find(keycode) != keys.end()) {
+        if (keys.contains(keycode)) {
             for (auto &callback: keys[keycode]) {
                 callback(keycode, SDL_GetKeyName(keycode));
+                _keysPressed.clear();
             }
         }
     }
