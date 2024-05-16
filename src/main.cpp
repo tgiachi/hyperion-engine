@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "include/engine/HyperionEngine.h"
+#include "include/engine/hyperion_engine.h"
 
 hyperion::engine::HyperionEngine *engine;
 

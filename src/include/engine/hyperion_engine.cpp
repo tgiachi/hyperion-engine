@@ -1,4 +1,4 @@
-#include "HyperionEngine.h"
+#include "hyperion_engine.h"
 
 #include "spdlog/spdlog.h"
 #include <SDL.h>

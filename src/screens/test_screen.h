@@ -11,6 +11,7 @@
 namespace hyperion::engine::screen {
     class TestScreen : public ScreenConsole {
         double _time = 0;
+
     public:
         void update(double deltaTime) override;
 
