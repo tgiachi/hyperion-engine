@@ -13,6 +13,17 @@
         "zlib"
       ]
     },
-    "sdl2"
+    {
+      "name": "sdl2"
+    },
+    {
+      "name": "nlohmann-json"
+    },
+    {
+      "name": "fmt"
+    },
+    {
+      "name": "spdlog"
+    }
   ]
 }

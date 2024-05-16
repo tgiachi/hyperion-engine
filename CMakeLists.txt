@@ -11,9 +11,10 @@ file(
         ${PROJECT_SOURCE_DIR}/src/*.cpp
         ${PROJECT_SOURCE_DIR}/src/*.hpp
         ${PROJECT_SOURCE_DIR}/src/*.h
-        ${PROJECT_SOURCE_DIR}/src/include/**/*.cpp
         ${PROJECT_SOURCE_DIR}/src/include/**/*.hpp
         ${PROJECT_SOURCE_DIR}/src/include/**/*.h
+
+
 )
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
@@ -51,12 +52,19 @@ add_custom_command(
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/data
 )
 
+find_package(fmt CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(libtcod CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+
 target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE
         SDL2::SDL2
         SDL2::SDL2main
         libtcod::libtcod
+        nlohmann_json nlohmann_json::nlohmann_json
+        fmt::fmt
+        spdlog::spdlog
 )
