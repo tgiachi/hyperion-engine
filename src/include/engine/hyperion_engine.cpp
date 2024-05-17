@@ -8,15 +8,10 @@
 #include "../utils/image_scaler.h"
 
 namespace hyperion::engine {
-    HyperionEngine::HyperionEngine(EngineOptions &options) {
+    HyperionEngine::HyperionEngine(const EngineOptions &options) {
         _options = options;
-        //_mousePosition = MousePosition();
-        //_screenSize = ScreenSize();
-        //_tilesSize = TilesSize();
-
         _running = false;
-        //_engine_context.inputHandler = ;
-        //_engine_context.dataLoader = services::DataLoader(options);
+
 
         spdlog::info("Initializing Hyperion Engine");
         initializeConsole();
@@ -99,36 +94,36 @@ namespace hyperion::engine {
         }
     }
 
-    void HyperionEngine::update_inputs(const SDL_Event *event) {
-        if (event->type == SDL_MOUSEMOTION) {
-            _mousePosition.x = event->motion.x;
-            _mousePosition.y = event->motion.y;
+    void HyperionEngine::update_inputs(const SDL_Event &event) {
+        if (event.type == SDL_MOUSEMOTION) {
+            _mousePosition.x = event.motion.x;
+            _mousePosition.y = event.motion.y;
 
-            _mousePosition.gridX = event->motion.x / _tilesSize.width;
-            _mousePosition.gridY = event->motion.y / _tilesSize.height;
+            _mousePosition.gridX = event.motion.x / _tilesSize.width;
+            _mousePosition.gridY = event.motion.y / _tilesSize.height;
         }
 
-        if (event->type == SDL_MOUSEBUTTONDOWN) {
-            if (event->button.button == SDL_BUTTON_LEFT) {
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
                 _mousePosition.leftButton = true;
             }
-            if (event->button.button == SDL_BUTTON_RIGHT) {
+            if (event.button.button == SDL_BUTTON_RIGHT) {
                 _mousePosition.rightButton = true;
             }
 
-            if (event->button.button == SDL_BUTTON_MIDDLE) {
+            if (event.button.button == SDL_BUTTON_MIDDLE) {
                 _mousePosition.middleButton = true;
             }
         }
 
-        if (event->type == SDL_MOUSEBUTTONUP) {
-            if (event->button.button == SDL_BUTTON_LEFT) {
+        if (event.type == SDL_MOUSEBUTTONUP) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
                 _mousePosition.leftButton = false;
             }
-            if (event->button.button == SDL_BUTTON_RIGHT) {
+            if (event.button.button == SDL_BUTTON_RIGHT) {
                 _mousePosition.rightButton = false;
             }
-            if (event->button.button == SDL_BUTTON_MIDDLE) {
+            if (event.button.button == SDL_BUTTON_MIDDLE) {
                 _mousePosition.middleButton = false;
             }
         }
@@ -138,7 +133,12 @@ namespace hyperion::engine {
     }
 
 
-    void HyperionEngine::update(const SDL_Event *event) {
+    void HyperionEngine::update(const SDL_Event &event) {
+        if (event.type == SDL_QUIT) {
+            _running = false;
+        }
+
+
         update_inputs(event);
 
         for (auto *screenConsole: _screenConsoles) {
@@ -149,6 +149,7 @@ namespace hyperion::engine {
 
     void HyperionEngine::run() {
         SDL_Event event;
+
 
         auto screen = new screen::TestScreen(20, 10, 20, 20);
         _screenConsoles.push_back(screen);
@@ -165,7 +166,7 @@ namespace hyperion::engine {
 
             event = SDL_Event{};
             SDL_PollEvent(&event);
-            update(&event);
+            update(event);
             render();
             _context.present(*_rootConsole);
 

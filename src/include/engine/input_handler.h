@@ -23,7 +23,7 @@ namespace hyperion::engine::services {
     public:
         void subscribeKeystroke(std::string keystroke, const InputCallback &callback);
 
-        void update(const SDL_Event *event);
+        void update(const SDL_Event &event);
     };
 }
 

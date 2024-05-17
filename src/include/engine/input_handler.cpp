@@ -40,13 +40,13 @@ namespace hyperion::engine::services {
         delete tokens;
     }
 
-    void InputHandler::update(const SDL_Event *event) {
-        if (event->type == SDL_KEYDOWN) {
-            this->_keysPressed.push_back(event->key.keysym.sym);
+    void InputHandler::update(const SDL_Event &event) {
+        if (event.type == SDL_KEYDOWN) {
+            _keysPressed.push_back(event.key.keysym.sym);
         }
 
-        if (event->type == SDL_KEYUP) {
-            std::erase(this->_keysPressed, event->key.keysym.sym);
+        if (event.type == SDL_KEYUP) {
+            std::erase(this->_keysPressed, event.key.keysym.sym);
         }
 
         SDL_Keycode keycode = SDLK_UNKNOWN;
