@@ -1,8 +1,7 @@
 #ifndef TESTSCREEN_H
 #define TESTSCREEN_H
 
-#include "../include/screen/screen_console.h"
-
+#include "screen_console.h"
 
 namespace hyperion::engine::screen {
     class TestScreen : public ScreenConsole {

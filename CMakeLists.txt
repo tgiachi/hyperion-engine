@@ -21,6 +21,14 @@ file(
         ${PROJECT_SOURCE_DIR}/src/*.h
         ${PROJECT_SOURCE_DIR}/src/include/**/*.hpp
         ${PROJECT_SOURCE_DIR}/src/include/**/*.h
+        ${PROJECT_SOURCE_DIR}/src/include/screen/**/*.hpp
+        ${PROJECT_SOURCE_DIR}/src/include/screen/**/*.h
+
+        ${PROJECT_SOURCE_DIR}/src/screens/**/*.hpp
+        ${PROJECT_SOURCE_DIR}/src/screens/**/*.h
+        ${PROJECT_SOURCE_DIR}/src/screens/**/*.cpp
+
+
 
 
 )

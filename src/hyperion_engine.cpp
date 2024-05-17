@@ -1,11 +1,12 @@
-#include "hyperion_engine.h"
+#include "include/engine/hyperion_engine.h"
 
-#include "spdlog/spdlog.h"
-#include <SDL.h>
+#include <spdlog/spdlog.h>
 
-#include "../../screens/test_screen.h"
-#include "../screen/screen_console.h"
-#include "../utils/image_scaler.h"
+
+#include "include/screen/test_screen.h"
+#include "include/screen/screen_console.h"
+#include "include/utils/image_scaler.h"
+#include "include/screen/test_screen.h"
 
 namespace hyperion::engine {
     HyperionEngine::HyperionEngine(const EngineOptions &options) {
