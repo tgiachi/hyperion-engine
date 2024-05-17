@@ -89,7 +89,7 @@ namespace hyperion::engine {
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-        for (auto *screenConsole: _screenConsoles) {
+        for (auto screenConsole: _screenConsoles) {
             screenConsole->render(_rootConsole->get());
         }
     }
