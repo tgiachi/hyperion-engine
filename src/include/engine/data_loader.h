@@ -5,11 +5,8 @@
 
 namespace hyperion::engine::services {
     class DataLoader {
-        EngineOptions *_options;
-
     public:
-        DataLoader(EngineOptions *options);
-        void LoadData();
+        void LoadData(EngineOptions &options);
     };
 }
 

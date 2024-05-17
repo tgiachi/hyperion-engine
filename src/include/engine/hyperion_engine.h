@@ -8,25 +8,23 @@
 #include "../types/engine_context.h"
 #include <libtcod.hpp>
 
+#include "../screen/screen_console.h"
+
 using namespace hyperion::engine::contexts;
 
 namespace hyperion::engine {
-    namespace screen {
-        class ScreenConsole;
-    }
-
     class HyperionEngine {
     private:
-        EngineOptions *_options;
-        EngineContext *_engine_context;
+        EngineOptions _options;
+        EngineContext _engine_context;
         tcod::Context _context;
-        tcod::Console *_rootConsole;
+        tcod::Console *_rootConsole{};
 
-        MousePosition _mousePosition;
-        ScreenSize *_screenSize;
-        TilesSize *_tilesSize;
+        MousePosition _mousePosition{};
+        ScreenSize _screenSize{};
+        TilesSize _tilesSize{};
 
-        std::vector<screen::ScreenConsole *> _screenConsoles;
+        std::vector<hyperion::engine::screen::ScreenConsole *> _screenConsoles;
 
         uint64_t _lastUpdate = 0;
         uint64_t _currentTick = 0;
@@ -44,7 +42,7 @@ namespace hyperion::engine {
         void update(const SDL_Event *event);
 
     public:
-        HyperionEngine(EngineOptions *options);
+        HyperionEngine(EngineOptions &options);
 
         ~HyperionEngine();
 

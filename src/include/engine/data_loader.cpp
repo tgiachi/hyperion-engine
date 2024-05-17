@@ -8,12 +8,7 @@
 
 
 namespace hyperion::engine::services {
-    DataLoader::DataLoader(EngineOptions *options) {
-        this->_options = options;
-        spdlog::info("Data directory: {}", this->_options->dataDirectory);
-    }
-
-    void DataLoader::LoadData() {
-
+    void DataLoader::LoadData(EngineOptions &options) {
+        spdlog::info("Loading data from {}", options.dataDirectory);
     }
 }

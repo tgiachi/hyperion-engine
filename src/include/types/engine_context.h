@@ -9,8 +9,8 @@
 
 namespace hyperion::engine {
     typedef struct {
-        services::InputHandler *inputHandler;
-        services::DataLoader *dataLoader;
+        services::InputHandler inputHandler = services::InputHandler();
+        services::DataLoader dataLoader = services::DataLoader();
     } EngineContext;
 }
 

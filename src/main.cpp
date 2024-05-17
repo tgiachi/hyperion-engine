@@ -2,8 +2,6 @@
 
 #include "include/engine/hyperion_engine.h"
 
-hyperion::engine::HyperionEngine *engine;
-
 
 auto get_data_dir() -> std::filesystem::path {
     static auto root_directory = std::filesystem::path{"."};
@@ -37,9 +35,9 @@ int main(int argc, char **argv) {
     //engineOptions.tilesSetWidth = 32;
     engineOptions.dataDirectory = get_data_dir().c_str();
 
-    engine = new hyperion::engine::HyperionEngine(&engineOptions);
+    auto engine = hyperion::engine::HyperionEngine(engineOptions);
 
-    engine->run();
+    engine.run();
 
     return 0;
 }

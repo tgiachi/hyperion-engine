@@ -8,15 +8,15 @@
 #include "../utils/image_scaler.h"
 
 namespace hyperion::engine {
-    HyperionEngine::HyperionEngine(EngineOptions *options) {
+    HyperionEngine::HyperionEngine(EngineOptions &options) {
         _options = options;
-        _mousePosition = MousePosition();
-        _screenSize = new ScreenSize();
-        _tilesSize = new TilesSize();
-        _engine_context = new EngineContext();
+        //_mousePosition = MousePosition();
+        //_screenSize = ScreenSize();
+        //_tilesSize = TilesSize();
+
         _running = false;
-        _engine_context->inputHandler = new services::InputHandler();
-        _engine_context->dataLoader = new services::DataLoader(options);
+        //_engine_context.inputHandler = ;
+        //_engine_context.dataLoader = services::DataLoader(options);
 
         spdlog::info("Initializing Hyperion Engine");
         this->initializeConsole();
@@ -26,47 +26,47 @@ namespace hyperion::engine {
         spdlog::info("Initializing console");
         auto params = TCOD_ContextParams{};
 
-        _engine_context->inputHandler->subscribeKeystroke("CTRL+q", [this](SDL_Keycode key, std::string keystroke) {
+        _engine_context.inputHandler.subscribeKeystroke("CTRL+q", [this](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
             this->_running = false;
         });
 
-        _engine_context->inputHandler->subscribeKeystroke("CTRL+a", [this](SDL_Keycode key, std::string keystroke) {
+        _engine_context.inputHandler.subscribeKeystroke("CTRL+a", [this](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+A pressed: Key:{} keystroke:{}", key, keystroke);
         });
 
         params.tcod_version = TCOD_COMPILEDVERSION;
-        params.renderer_type = _options->renderer;
-        params.vsync = _options->vsync;
-        params.sdl_window_flags = _options->resizable ? SDL_WINDOW_RESIZABLE : 0;
-        params.window_title = _options->windowTitle;
+        params.renderer_type = _options.renderer;
+        params.vsync = _options.vsync;
+        params.sdl_window_flags = _options.resizable ? SDL_WINDOW_RESIZABLE : 0;
+        params.window_title = _options.windowTitle;
 
 
-        auto tilesetPath = std::filesystem::path{_options->dataDirectory} / std::filesystem::path
-                           {_options->tilesetName};
+        auto tilesetPath = std::filesystem::path{_options.dataDirectory} / std::filesystem::path
+                           {_options.tilesetName};
 
-        if (_options->tileSetScale > 1.0) {
-            spdlog::info("Scaling tileset by {}", _options->tileSetScale);
+        if (_options.tileSetScale > 1.0) {
+            spdlog::info("Scaling tileset by {}", _options.tileSetScale);
             auto newScaledFileName = (tilesetPath.c_str() + std::string("_scaled.png")).c_str();
             utils::images::scaleTileset(tilesetPath.c_str(), newScaledFileName,
-                                        _options->tileSetScale);
+                                        _options.tileSetScale);
 
             tilesetPath = newScaledFileName;
         }
 
-        auto defaultTileset = tcod::load_tilesheet(tilesetPath, {_options->tilesSetWidth, _options->tilesSetHeight},
+        auto defaultTileset = tcod::load_tilesheet(tilesetPath, {_options.tilesSetWidth, _options.tilesSetHeight},
                                                    tcod::CHARMAP_TCOD);
 
-        _tilesSize->height = defaultTileset.get_tile_height();
-        _tilesSize->width = defaultTileset.get_tile_width();
+        _tilesSize.height = defaultTileset.get_tile_height();
+        _tilesSize.width = defaultTileset.get_tile_width();
 
-        _screenSize->width = _options->columns * _tilesSize->width;
-        _screenSize->height = _options->rows * _tilesSize->height;
+        _screenSize.width = _options.columns * _tilesSize.width;
+        _screenSize.height = _options.rows * _tilesSize.height;
 
         params.tileset = defaultTileset.get();
 
 
-        this->_rootConsole = new tcod::Console{_options->columns, _options->rows};
+        this->_rootConsole = new tcod::Console{_options.columns, _options.rows};
         params.console = this->_rootConsole->get();
         this->_context = tcod::Context(params);
         this->_running = true;
@@ -104,8 +104,8 @@ namespace hyperion::engine {
             this->_mousePosition.x = event->motion.x;
             this->_mousePosition.y = event->motion.y;
 
-            this->_mousePosition.gridX = event->motion.x / _tilesSize->width;
-            this->_mousePosition.gridY = event->motion.y / _tilesSize->height;
+            this->_mousePosition.gridX = event->motion.x / _tilesSize.width;
+            this->_mousePosition.gridY = event->motion.y / _tilesSize.height;
         }
 
         if (event->type == SDL_MOUSEBUTTONDOWN) {
@@ -134,7 +134,7 @@ namespace hyperion::engine {
         }
 
 
-        this->_engine_context->inputHandler->update(event);
+        this->_engine_context.inputHandler.update(event);
     }
 
 
@@ -175,7 +175,5 @@ namespace hyperion::engine {
 
 
     HyperionEngine::~HyperionEngine() {
-        delete _options;
-        delete _rootConsole;
     }
 }
