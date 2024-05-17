@@ -14,7 +14,7 @@ namespace hyperion::engine::screen {
         tcod::Console *_console;
         bool _visible = false;
         float _alpha = 1.0f;
-        TCOD_ColorRGB _backgroundColor = TCOD_ColorRGB{0, 128, 0};
+        TCOD_ColorRGB _backgroundColor = TCOD_ColorRGB{0, 0, 0};
 
     public:
         ScreenConsole(int width, int height, int x, int y) : _consoleRect({x, y, width, height}) {
