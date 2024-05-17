@@ -151,8 +151,8 @@ namespace hyperion::engine {
         SDL_Event event;
 
 
-        auto screen = new screen::TestScreen(20, 10, 20, 20);
-        _screenConsoles.push_back(screen);
+        auto screen = screen::TestScreen(20, 10, 20, 20);
+        _screenConsoles.push_back(&screen);
 
 
         _lastUpdate = SDL_GetTicks();

@@ -13,6 +13,8 @@ namespace hyperion::engine::screen {
 
         TestScreen(int width, int height, int x, int y) : ScreenConsole(width, height, x, y) {
             this->show();
+
+
         }
     };
 }

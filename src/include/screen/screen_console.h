@@ -21,7 +21,6 @@ namespace hyperion::engine::screen {
             _console = new tcod::Console{width, height};
         }
 
-        ~ScreenConsole();
 
         [[nodiscard]] tcod::Console *getConsole() const {
             return _console;
