@@ -19,7 +19,7 @@ namespace hyperion::engine {
         //_engine_context.dataLoader = services::DataLoader(options);
 
         spdlog::info("Initializing Hyperion Engine");
-        this->initializeConsole();
+        initializeConsole();
     }
 
     void HyperionEngine::initializeConsole() {
@@ -28,7 +28,7 @@ namespace hyperion::engine {
 
         _engine_context.inputHandler.subscribeKeystroke("CTRL+q", [this](SDL_Keycode key, std::string keystroke) {
             spdlog::info("CTRL+Q pressed: Key:{} keystroke:{}", key, keystroke);
-            this->_running = false;
+            _running = false;
         });
 
         _engine_context.inputHandler.subscribeKeystroke("CTRL+a", [this](SDL_Keycode key, std::string keystroke) {
@@ -66,83 +66,83 @@ namespace hyperion::engine {
         params.tileset = defaultTileset.get();
 
 
-        this->_rootConsole = new tcod::Console{_options.columns, _options.rows};
-        params.console = this->_rootConsole->get();
-        this->_context = tcod::Context(params);
-        this->_running = true;
+        _rootConsole = new tcod::Console{_options.columns, _options.rows};
+        params.console = _rootConsole->get();
+        _context = tcod::Context(params);
+        _running = true;
     }
 
     void HyperionEngine::render() {
-        tcod::print(*this->_rootConsole, {10, 10}, "Hello world", TCOD_ColorRGB{255, 255, 255}, std::nullopt,
+        tcod::print(*_rootConsole, {10, 10}, "Hello world", TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-        tcod::print(*this->_rootConsole, {10, 11}, std::format("delta: {}", this->_deltaTime),
+        tcod::print(*_rootConsole, {10, 11}, std::format("delta: {}", _deltaTime),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-        tcod::print(*this->_rootConsole, {10, 12},
-                    std::format("mouse x: {} y:{} leftclicked: {} right:{}", this->_mousePosition.x,
-                                this->_mousePosition.y, this->_mousePosition.leftButton,
-                                this->_mousePosition.rightButton),
+        tcod::print(*_rootConsole, {10, 12},
+                    std::format("mouse x: {} y:{} leftclicked: {} right:{}", _mousePosition.x,
+                                _mousePosition.y, _mousePosition.leftButton,
+                                _mousePosition.rightButton),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-        tcod::print(*this->_rootConsole, {10, 13},
+        tcod::print(*_rootConsole, {10, 13},
                     std::format("mouse grid x: {} y:{}",
-                                this->_mousePosition.gridX,
-                                this->_mousePosition.gridY),
+                                _mousePosition.gridX,
+                                _mousePosition.gridY),
                     TCOD_ColorRGB{255, 255, 255}, std::nullopt,
                     TCOD_LEFT);
 
-        for (auto *screenConsole: this->_screenConsoles) {
-            screenConsole->render(this->_rootConsole->get());
+        for (auto *screenConsole: _screenConsoles) {
+            screenConsole->render(_rootConsole->get());
         }
     }
 
     void HyperionEngine::update_inputs(const SDL_Event *event) {
         if (event->type == SDL_MOUSEMOTION) {
-            this->_mousePosition.x = event->motion.x;
-            this->_mousePosition.y = event->motion.y;
+            _mousePosition.x = event->motion.x;
+            _mousePosition.y = event->motion.y;
 
-            this->_mousePosition.gridX = event->motion.x / _tilesSize.width;
-            this->_mousePosition.gridY = event->motion.y / _tilesSize.height;
+            _mousePosition.gridX = event->motion.x / _tilesSize.width;
+            _mousePosition.gridY = event->motion.y / _tilesSize.height;
         }
 
         if (event->type == SDL_MOUSEBUTTONDOWN) {
             if (event->button.button == SDL_BUTTON_LEFT) {
-                this->_mousePosition.leftButton = true;
+                _mousePosition.leftButton = true;
             }
             if (event->button.button == SDL_BUTTON_RIGHT) {
-                this->_mousePosition.rightButton = true;
+                _mousePosition.rightButton = true;
             }
 
             if (event->button.button == SDL_BUTTON_MIDDLE) {
-                this->_mousePosition.middleButton = true;
+                _mousePosition.middleButton = true;
             }
         }
 
         if (event->type == SDL_MOUSEBUTTONUP) {
             if (event->button.button == SDL_BUTTON_LEFT) {
-                this->_mousePosition.leftButton = false;
+                _mousePosition.leftButton = false;
             }
             if (event->button.button == SDL_BUTTON_RIGHT) {
-                this->_mousePosition.rightButton = false;
+                _mousePosition.rightButton = false;
             }
             if (event->button.button == SDL_BUTTON_MIDDLE) {
-                this->_mousePosition.middleButton = false;
+                _mousePosition.middleButton = false;
             }
         }
 
 
-        this->_engine_context.inputHandler.update(event);
+        _engine_context.inputHandler.update(event);
     }
 
 
     void HyperionEngine::update(const SDL_Event *event) {
-        this->update_inputs(event);
+        update_inputs(event);
 
-        for (auto *screenConsole: this->_screenConsoles) {
-            screenConsole->update(this->_deltaTime);
+        for (auto *screenConsole: _screenConsoles) {
+            screenConsole->update(_deltaTime);
         }
     }
 
@@ -151,25 +151,25 @@ namespace hyperion::engine {
         SDL_Event event;
 
         auto screen = new screen::TestScreen(20, 10, 20, 20);
-        this->_screenConsoles.push_back(screen);
+        _screenConsoles.push_back(screen);
 
 
-        this->_lastUpdate = SDL_GetTicks();
+        _lastUpdate = SDL_GetTicks();
 
 
-        while (this->_running) {
+        while (_running) {
             auto currentTime = SDL_GetTicks();
-            this->_deltaTime = currentTime - this->_lastUpdate;
+            _deltaTime = currentTime - _lastUpdate;
 
-            this->_rootConsole->clear();
+            _rootConsole->clear();
 
             event = SDL_Event{};
             SDL_PollEvent(&event);
-            this->update(&event);
-            this->render();
-            this->_context.present(*this->_rootConsole);
+            update(&event);
+            render();
+            _context.present(*_rootConsole);
 
-            this->_lastUpdate = currentTime;;
+            _lastUpdate = currentTime;;
         }
     }
 
